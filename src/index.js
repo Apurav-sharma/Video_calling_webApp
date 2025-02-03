@@ -6,15 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Optional, for JavaScript components like modals or dropdowns
-import { Socketprovider } from './context/socketprovider';
+// import { Socketprovider } from './context/socketprovider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Socketprovider>
+      {/* <Socketprovider> */}
         <App />
-      </Socketprovider>
+      {/* </Socketprovider> */}
     </BrowserRouter>
   </React.StrictMode>
 );
