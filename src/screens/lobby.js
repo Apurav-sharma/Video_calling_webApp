@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "../screens_css/lobby.css";
-// import { useSocket } from '../context/socketprovider';
+import { useSocket } from '../context/socketprovider';
 // import { zegoUIKitPrebuilt } from "@zegocloud/zego-uikit-react";
 
 import { useNavigate } from 'react-router-dom';
@@ -12,18 +12,30 @@ const Lobby = () => {
     var [roomNo, setroomNo] = useState("");
 
     const navigate = useNavigate();
-    // const socket = useSocket();
+    const socket = useSocket();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // socket.emit('join_room', {
-        //     email, roomNo
-        // });
+        socket.emit('join_room', {
+            email, roomNo
+        });
         // console.log(email, roomNo);
-
-        navigate(`/${roomNo}`);
-
     }
+
+    const handleJoinRoom = (data) => {
+
+        const {email, roomNo} = data;
+        navigate(`/room/${roomNo}`);
+        // console.log(data);
+    }
+
+    useEffect(() => {
+        socket.on('join_room', handleJoinRoom);
+
+        return () => {
+            socket.off('join_room', handleJoinRoom);
+        }
+    }, [socket])
 
     return (
         <div className='lobby'>
