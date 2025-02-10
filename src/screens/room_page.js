@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSocket } from '../context/socketprovider';
 import ReactPlayer from "react-player";
 import "../screens_css/room_page.css";
+import Peerservice from '../service/peer';
 
 const Room = () => {
 
@@ -22,8 +23,24 @@ const Room = () => {
             audio: true,
             video: true
         });
-
+        const offer = await Peerservice.getOffer();
+        socket.emit("emitcall", {to: socketId, offer});
         setmystream(stream);
+    }
+
+    const handleCallAccept = async (data) => {
+        const stream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+            video: true
+        })
+
+        const {from, offer} = data;
+        setmystream(stream);
+        setconnected(from);
+        const ans = await Peerservice.getAnswer();
+        socket.emit("accepted", {})
+
+
     }
 
     useEffect(() => {
